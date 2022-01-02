@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<input type="text" placeholder="Birth date" id="inp">
+	<br>
+		<div id="out"><b></b></div>
+	<br>
+	<a href="cook.html">cook</a>
+	<script>
+		/*1. Установите куку с именем 'name' и значением 'Иван'. Выведите содержимое этой куки на экран
+		//document.cookie = 'email=brunnmax@outlook.com; name=Иван; year=23';
+		console.log(document.cookie);
+		let str = document.cookie.match(/(?:^|\;|\s)name\=([a-zA-Zа-яА-Я]*?)(?:$|\;)/);
+		console.log(str[1]);*/
+		
+
+		/*2. Установите куку с вашем именем и вашим возрастом. Выведите на экран содержимое этих двух кук.
+
+		document.cookie = 'name=Dinis; path=/; SameSite=none; Secure=false';
+		document.cookie = 'age=31; path=/; SameSite=none; Secure=false';
+		//let cookieString = document.cookie;
+		console.log(document.cookie);
+		
+		let cookieToArr = document.cookie.split(';');
+		console.log(cookieToArr);
+
+		let output = '';
+
+		for (var i = 0; i < cookieToArr.length; i++) {
+			//console.log(cookieToArr[i]);
+			let cookieMatch = cookieToArr[i].match(/=([a-zA-ZА-Яа-я0-9]*$)/);
+			//console.log(cookieMatch[1]);
+			output = output + ' ' + cookieMatch[1] + ' ';
+		}
+		let str = output.replace(/^\s*|\s*$|\b\s/g, '');
+		console.log(str);*/
+
+
+		/*3. Дан инпут. Ведите в него город, например, Минск. Сохраните его в куки. Зайдя на другую страницу сайта вы должны увидеть фразу 'ваш город - Минск'.
+		let inp = document.querySelector('#inp');
+		let out = document.querySelector('#out b');
+		
+		let reg = document.cookie.match(/=([a-zA-Zа-яА-Я0-9]*)$/);
+		console.log(reg);
+		
+		inp.onchange = function () {
+			
+			document.cookie = 'city='+ this.value;
+			out.innerHTML = reg[1];
+		}
+		out.innerHTML = reg[1];
+		console.log(document.cookie);*/
+
+
+		/*4. При заходе на страницу спросите с помощью инпута день рождения пользователя. Когда он зайдет с следующий раз - напишите сколько месяцев, дней, часов, минут и секунд осталось до его дня рождения. И пусть по этим числам запуститься обратный отсчет (то есть они будут тикать)*/
+
+		let inp = document.querySelector('#inp');
+		let out = document.querySelector('#out b');
+		
+		
+		
+		
+		function dateDifferer(month, day) {
+			let today = new Date();
+			month = month-1;
+			let differnce = new Date(2021, month, day)-today;
+			if (differnce<0) {
+				return differnce = Math.floor(new Date(2022, month, day)-today)/1000;
+			}
+			return Math.floor(differnce/1000);
+		}
+
+		
+		
+
+		inp.onchange = function () {
+			//podgotovka togo chto vveli
+			let replaced = this.value.replace(/[^0-9\s]/g,'');
+			let valueToArr = replaced.split(' ');
+			console.log(valueToArr);
+
+
+			//vremya dlya cooki na odin den' vpered prevrasheno v Utc format v stroku
+			let cookieLifeTime = new Date();
+			cookieLifeTime.setDate(cookieLifeTime.getDate()+1);
+			cookieLifeTime = cookieLifeTime.toUTCString();
+			
+
+			//podgotovka cookiev
+			document.cookie = 'birthmonth='+valueToArr[1]+'; path=/; expires='+cookieLifeTime;
+			document.cookie = 'birthday='+valueToArr[0]+'; path=/; expires='+cookieLifeTime;
+			console.log(document.cookie);
+
+		}
+		//out.innerHTML = ''
+
+
+		
+// console.log(secondsBefore);
+			
+			function timer() {
+				//izyatie cookiev
+			let birthDay = document.cookie.match(/birthday=([0-9]*)(\;|$|\s)/);
+			let birthMonth = document.cookie.match(/birthmonth=([0-9]*)(\;|$|\s)/);
+			
+			let totalSec = dateDifferer(parseInt(birthMonth[1]), parseInt(birthDay[1]));
+			let days = Math.floor(totalSec/86400);
+			let hours = Math.floor(totalSec/3600);
+			let hoursBefore = hours - days*24;
+		
+			let minutes = Math.floor(totalSec/60);
+			let minutesBefore = minutes - hours*60;
+
+			let secondsBefore = Math.floor(totalSec)-minutes*60;
+				out.innerHTML = days + ' : '+ hoursBefore + ' : ' + minutesBefore + ' : ' + secondsBefore + ' until your bithday';
+			};
+
+			/*window.onload = function () {
+			if (birthDay[1]!==''&&birthMonth[1]!=='') {
+					timer();
+				}
+				
+			}*/
+
+			
+			setInterval(timer, 1000);
+
+	</script>
+	
+</body>
+</html>

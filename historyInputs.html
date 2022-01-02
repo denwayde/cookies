@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+	<div class="mt-5" id="arrowGroup" style="width: 100%; display: flex; justify-content: flex-end">
+		<button type="button" id="arrowup" class="btn btn-info">&#8593;</button>
+		<button type="button" id="arrowdown" class="btn btn-info" style="margin-left: .4rem;">&#8595;</button>
+	</div>
+	<div class="input-group mt-2">
+	  <input type="text" class="form-control" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2">
+	  <div class="input-group-append">
+	    <button class="btn btn-outline-secondary" type="button" id="button-addon2">Button</button>
+	  </div>
+	</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+<script> 
+	/*9.  Дан инпут. В него можно ввести данные, затем поредактировать их, затем еще поредактировать. Пусть инпут хранит историю своих изменений (даже после перезагрузки страницы). Сверху над инпутом должны появится стрелочки, с помощью которых можно перемещаться по истории.*/
+	let inp = document.querySelector('input');
+	let btn = document.querySelector('#button-addon2');
+	let aG = document.querySelector('#arrowGroup');
+	let aUp = document.querySelector('#arrowup');
+	let aDwn = document.querySelector('#arrowdown');
+
+	let arr = [];
+	let n;
+	let arrToV = [];
+
+	inp.onchange = function() {
+		
+		arr.push(this.value);
+		console.log(arr);
+		
+		let date = new Date();
+		date.setDate(date.getDate()+1);
+		date=date.toUTCString();
+		
+		for (var i = 0; i < arr.length; i++) {
+			document.cookie = `${i}=${arr[i]}; expires=${date}`;
+			console.log(document.cookie); 
+		}
+		
+		let cookieString = document.cookie.match(/=([a-zа-яА-ЯA-Z0-9\s]+)(?:\;|$)/g);
+		
+		for (var i = 0; i < cookieString.length; i++) {
+				arrToV.push(cookieString[i].replace(/=([a-zа-яА-ЯA-Z0-9\s]+)(?:\;|$)/, '$1'));
+			}
+			console.log(arrToV);
+			inp.value = arrToV[arrToV.length-1];
+			
+			console.log(arrToV.indexOf(inp.value));
+			n = arrToV.indexOf(inp.value)
+	}
+	console.log(document.cookie);
+	
+	//console.log(cookieString);
+	
+	
+			
+			
+			aUp.onclick = function(e) {
+				if (arrToV.length!==0&&inp.value!==arrToV[arrToV.length-1]) {
+					n++;
+					inp.value = arrToV[n];
+				} 
+			}
+
+			aDwn.onclick = function(e) {
+				if (arrToV.length!==0&&inp.value!==arrToV[0]) {
+					n--;
+					inp.value = arrToV[n];
+				} 
+			}
+	
+</script>	
+</body>
+</html>

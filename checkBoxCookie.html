@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+	<div class="row" id="checkBoxGroup">
+		<div class="input-group mb-3 mt-3">
+		  <div class="input-group-prepend">
+		    <div class="input-group-text">
+		      <input type="checkbox" aria-label="Checkbox for following text input">
+		    </div>
+		  </div>
+		  <input type="text" class="form-control" aria-label="Text input with checkbox" value="Javascript">
+		</div>
+
+		<div class="input-group mb-3">
+		  <div class="input-group-prepend">
+		    <div class="input-group-text">
+		      <input type="checkbox" aria-label="Checkbox for following text input">
+		    </div>
+		  </div>
+		  <input type="text" class="form-control" aria-label="Text input with checkbox" value="C++">
+		</div>
+
+		<div class="input-group mb-3">
+		  <div class="input-group-prepend">
+		    <div class="input-group-text">
+		      <input type="checkbox" aria-label="Checkbox for following text input">
+		    </div>
+		  </div>
+		  <input type="text" class="form-control" aria-label="Text input with checkbox" value="Python">
+		</div>
+	</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+<script>
+	/*6. Даны чекбоксы. Пользователь произвольно отмечает их и закрывает страницу. Сделайте так, чтобы при следующем заходе на страницу чекбоксы стали отмеченными так, как это сделал пользователь ранее.*/
+	let checkBoxGroup = document.querySelector('#checkBoxGroup');
+	let checkBox = document.querySelectorAll('input[type=checkbox]');
+	let arr = [];
+	let arrToJson = [];
+	//console.log(checkBoxGroup);
+	
+	for (var i = 0; i < checkBox.length; i++) {
+		arr.push(checkBox[i]);
+	}
+		
+		checkBoxGroup.onclick = function(e) {
+			
+			if (e.target.type == 'checkbox'&&e.target.checked == true) {
+				 
+				 arrToJson.push(arr.indexOf(e.target));
+				 console.log(arrToJson);
+ 
+			}
+
+			if (e.target.type == 'checkbox'&&e.target.checked == false&&arrToJson.length!==0) {
+	
+				arrToJson.splice(arrToJson.indexOf(arr.indexOf(e.target)), 1);
+				console.log(arrToJson);
+				
+			}
+
+
+
+			let jsonStr = JSON.stringify(arrToJson);
+			let date = new Date();
+			date.setDate(date.getDate()+1);
+			date = date.toUTCString();
+			document.cookie = 'checkbox='+jsonStr+'; secure=false; expires='+date;
+			console.log(document.cookie);
+
+		}
+
+	console.log(document.cookie);
+		
+	if (document.cookie !== '') {
+				
+		let strArrFromCookie = document.cookie.match(/checkbox=([\d\,\[\]]*)/);
+		console.log(strArrFromCookie[1]);
+				
+		if (strArrFromCookie[1]) {
+					
+		let jsonArr = JSON.parse(strArrFromCookie[1]);
+		//console.log(jsonArr);
+					
+		for (var i = 0; i < jsonArr.length; i++) {
+						
+			//console.log(checkBox[jsonArr[i]]);
+			arrToJson.push(jsonArr[i]);
+						
+			checkBox[jsonArr[i]].checked = true;
+		}
+		}
+	}
+
+</script>	
+</body>
+</html>

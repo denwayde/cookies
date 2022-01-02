@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous"> -->
+</head>
+<body>
+
+<div class="container">
+	<div class="form-group">
+    <label for="exampleFormControlTextarea1">Example textarea</label>
+ <textarea class="form-control" id="exampleFormControlTextarea1" ></textarea>  
+  </div>
+</div>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>-->
+<script> 
+	/*8. Дан тектареа. Пользователь может потянуть за его угол и изменить его размер. Сделайте так, чтобы при следующем заходе на страницу, текстареа был заданного размера */
+let ta = document.querySelector('#exampleFormControlTextarea1');
+let cS;
+let strFromCookie = document.cookie.match(/height=(\d+)/);
+
+window.onload = function() {
+	console.log(strFromCookie[1]);
+	if (strFromCookie!==null) {
+		ta.setAttribute("style", "height: "+ strFromCookie[1] + "px;");
+		//ta.style.height = strFromCookie[1]+'px';
+	}
+	
+}
+
+ta.onmouseup=function(e) {
+	console.log(e);
+	if (ta.getAttribute('style')!==null&&e.button==0) {
+		cS = ta.getAttribute('style').match(/height:\s(\d+)px;/);
+		console.log(cS);
+		let date = new Date();
+		date.setDate(date.getDate()+1);
+		date = date.toUTCString()
+		document.cookie = `height=${cS[1]}; expires=${date}`;
+	}
+
+}
+
+</script>	
+</body>
+</html>

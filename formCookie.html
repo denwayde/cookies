@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+
+
+ <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s6">
+          <!-- <i class="material-icons prefix">account_circle</i> -->
+          <input id="icon_prefix" type="text" class="validate">
+          <label for="icon_prefix">First Name</label>
+        </div>
+        <div class="input-field col s6">
+          <!-- <i class="material-icons prefix">phone</i> -->
+          <input id="icon_telephone" type="tel" class="validate">
+          <label for="icon_telephone">Telephone</label>
+        </div>
+      </div>
+    </form>
+    <a class="waves-effect waves-light btn" id="btn">submit</a>
+  </div>
+
+
+    <!-- Compiled and minified JavaScript --><!-- 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
+            
+	<script>
+		/* Дана форма с инпутами. Пользователь вводит какие-то данные и закрывает страницу (не факт, что он заполнил всю форму). Сделайте так, чтобы при следующем заходе на страницу введенные им ранее данные стояли на своих местах.*/
+let name = document.querySelector('#icon_prefix');
+let phone = document.querySelector('#icon_telephone');
+let btn = document.querySelector('#btn');
+let obj = {};
+
+window.onload = function() { 
+  console.log(document.cookie);
+  takeValuesFromCookie(); 
+  if(obj.name){name.value = obj.name;}
+  if (obj.phone) {phone.value = obj.phone;}
+  /*let inputs = document.querySelectorAll('input');
+  for (var i = 0; i < inputs.length; i++) {
+    inputs[i]
+  }*/
+
+};
+
+console.log(obj);
+
+
+btn.onclick = function() {
+  saveToCookie('name', name.value);
+  saveToCookie('phone', phone.value);
+}
+/*name.onchange = function () {
+  saveToCookie('name', this.value);
+}
+phone.onchange = function() {
+  saveToCookie('phone', this.value);
+}*/
+
+function saveToCookie(cookieName, cookieValue) {
+  let toTommorow = new Date();
+  toTommorow.setDate(toTommorow.getDate()+1);
+  toTommorow = toTommorow.toUTCString();
+  document.cookie = cookieName+'='+cookieValue+';'+'expires='+ toTommorow+'; secure=false';
+}
+
+
+function takeValuesFromCookie() {
+    let cookieString = document.cookie;
+    cookieString = cookieString.replace(/\s+/g, ''); 
+    let arrFromCookieString = cookieString.split(';');
+    console.log(arrFromCookieString);
+    for (var i = 0; i < arrFromCookieString.length; i++) {
+      let cookieName = arrFromCookieString[i].match(/([a-zA-Z0-9а-яА-Я]+)\=([\+a-zA-Z0-9а-яА-Я]*)(?:$|\;)/);
+      obj[cookieName[1]] = cookieName[2];
+    }
+    console.log(obj);
+};
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Your location is <b></b></h1>
+	<script>
+		console.log(document.cookie);
+		let reg = document.cookie.match(/=([a-zA-Zа-яА-Я0-9]*)$/);
+		document.querySelector('b').innerHTML = reg[1];
+	</script>
+</body>
+</html>
