@@ -50,7 +50,7 @@
 		}
 		
 		let cookieString = document.cookie.match(/=([a-zа-яА-ЯA-Z0-9\s]+)(?:\;|$)/g);
-		
+		arrToV = [];
 		for (var i = 0; i < cookieString.length; i++) {
 				arrToV.push(cookieString[i].replace(/=([a-zа-яА-ЯA-Z0-9\s]+)(?:\;|$)/, '$1'));
 			}
@@ -62,11 +62,19 @@
 	}
 	console.log(document.cookie);
 	
-	//console.log(cookieString);
-	
-	
+	window.onload = function(){
+		let cookieString = document.cookie.match(/=([a-zа-яА-ЯA-Z0-9\s]+)(?:\;|$)/g);
+		for (var i = 0; i < cookieString.length; i++) {
+				arrToV.push(cookieString[i].replace(/=([a-zа-яА-ЯA-Z0-9\s]+)(?:\;|$)/, '$1'));
+			}
+			console.log(arrToV);
+			inp.value = arrToV[arrToV.length-1];
 			
-			
+			console.log(arrToV.indexOf(inp.value));
+			n = arrToV.indexOf(inp.value)	
+	}
+	
+	//console.log(cookieString);	
 			aUp.onclick = function(e) {
 				if (arrToV.length!==0&&inp.value!==arrToV[arrToV.length-1]) {
 					n++;
