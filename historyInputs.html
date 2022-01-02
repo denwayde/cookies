@@ -50,9 +50,10 @@
 		}
 		
 		let cookieString = document.cookie.match(/\d=([a-zа-яА-ЯA-Z0-9\s]+)(?:\;|$)/g);
+		//console.log(cookieString);
 		arrToV = [];
 		for (var i = 0; i < cookieString.length; i++) {
-				arrToV.push(cookieString[i].replace(/=([a-zа-яА-ЯA-Z0-9\s]+)(?:\;|$)/, '$1'));
+				arrToV.push(cookieString[i].replace(/\d=([a-zа-яА-ЯA-Z0-9\s]+)(?:\;|$)/, '$1'));
 			}
 			console.log(arrToV);
 			inp.value = arrToV[arrToV.length-1];
@@ -65,7 +66,7 @@
 	window.onload = function(){
 		let cookieString = document.cookie.match(/\d=([a-zа-яА-ЯA-Z0-9\s]+)(?:\;|$)/g);
 		for (var i = 0; i < cookieString.length; i++) {
-				arrToV.push(cookieString[i].replace(/=([a-zа-яА-ЯA-Z0-9\s]+)(?:\;|$)/, '$1'));
+				arrToV.push(cookieString[i].replace(/\d=([a-zа-яА-ЯA-Z0-9\s]+)(?:\;|$)/, '$1'));
 			}
 			console.log(arrToV);
 			inp.value = arrToV[arrToV.length-1];
