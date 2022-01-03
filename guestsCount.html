@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuestCounter</title>
+</head>
+<body>
+    <div id="out"></div>
+    <script>
+        // Дан сайт. Пусть каждая страница для каждого посетителя хранит время последнего захода и количество заходов на нее этим посетителем. Пусть эти данные показываются при заходе в формате с последнего захода прошло ...  вы посещали эту страницу ...  раз
+        let n = 0;
+        let today = new Date();
+       /*  console.log(today);
+        console.log(today.getDate());
+        console.log(today.getFullYear());
+        console.log(today.getHours());
+        console.log(today.getTime());
+        console.log(today.getDay()); */
+        
+        let strDate = document.cookie.match(/date=([a-zA-Z\:\d\,\s]+)(?:\;|$)/);
+        let guestCount = document.cookie.match(/guestcount=([\d]+)(\;|$)/);
+        
+        if (strDate!==null||guestCount!==null) {
+            console.log(strDate[1]);
+            let dateFromCookie = Date.parse(strDate[1]);
+            console.log(dateFromCookie);
+            
+            let dif = today - dateFromCookie;
+            console.log(dif);
+
+            console.log(guestCount[1]);
+            n = Number(guestCount[1]);
+        }
+        
+        window.onload = function(){
+            n++;
+            let date = new Date();
+            date = date.toUTCString();
+            document.cookie = `date=${date}`;
+            document.cookie = `guestcount=${n}`;
+            console.log(document.cookie);
+        }
+    </script>
+</body>
+</html>
