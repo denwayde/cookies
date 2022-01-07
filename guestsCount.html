@@ -7,41 +7,85 @@
     <title>GuestCounter</title>
 </head>
 <body>
-    <div id="out"></div>
+    <div id="out">
+       С момента первого захода прошло: <span id="days"></span> : <span id="hours"></span> : <span id="min"></span> : <span id="sec"></span>
+    </div>
     <script>
         // Дан сайт. Пусть каждая страница для каждого посетителя хранит время последнего захода и количество заходов на нее этим посетителем. Пусть эти данные показываются при заходе в формате с последнего захода прошло ...  вы посещали эту страницу ...  раз
         let n = 0;
-        let today = new Date();
-       /*  console.log(today);
-        console.log(today.getDate());
-        console.log(today.getFullYear());
-        console.log(today.getHours());
-        console.log(today.getTime());
-        console.log(today.getDay()); */
-        
+        let today = new Date(); 
         let strDate = document.cookie.match(/date=([a-zA-Z\:\d\,\s]+)(?:\;|$)/);
         let guestCount = document.cookie.match(/guestcount=([\d]+)(\;|$)/);
         
-        if (strDate!==null||guestCount!==null) {
-            console.log(strDate[1]);
-            let dateFromCookie = Date.parse(strDate[1]);
-            console.log(dateFromCookie);
-            
-            let dif = today - dateFromCookie;
-            console.log(dif);
-
-            console.log(guestCount[1]);
-            n = Number(guestCount[1]);
-        }
+        let daysOut = document.querySelector('#days');
+        let hoursOut = document.querySelector('#hours');
+        let minsOut = document.querySelector('#min');
+        let secOut = document.querySelector('#sec');
         
+
         window.onload = function(){
+            //console.log(today);
+            today.setDate(today.getDate()+1);
+            let toTommorow = today.toUTCString();
+            
+            if (strDate==null) {
+                let dateForCookie = new Date();
+                dateForCookie = dateForCookie.toUTCString();
+                document.cookie = `date=${dateForCookie}; expires=${toTommorow}`;
+            }
+
+            if (strDate!==null) {
+                //console.log(strDate[1]);
+                document.cookie = `date=${strDate[1]}; expires=${toTommorow}`;
+
+                let dateFromCookie = Date.parse(strDate[1]);
+                //console.log(dateFromCookie);
+                function dateDifferer() {
+                    let present = new Date();
+                    //present.setDate(present.getDate()-3);
+                    let dif = present - dateFromCookie;
+                    let totalSec = dif/1000;
+                    
+                    let totDays = totalSec/86400;
+                    
+                    let sec = Math.floor(totalSec%60);
+
+                    let totMin = totalSec/60;
+                    let min = Math.floor(totMin%60)
+
+                    let totHours = totMin/60;
+                    let hours = Math.floor(totHours%24);
+
+                    let days = Math.floor(totDays);
+
+                    daysOut.innerText = addZero(days);
+                    hoursOut.innerText = addZero(hours);
+                    minsOut.innerText = addZero(min);
+                    secOut.innerText = addZero(sec);
+                    setTimeout(dateDifferer, 1000);
+                }
+
+                function addZero(a) {
+                        if (a<10) {return a = '0'+ a;}
+                        else {return a;}
+                }
+
+
+                dateDifferer();
+            }
+
+            if (guestCount!==null) {
+                n = Number(guestCount[1]);
+            }
+
+
             n++;
-            let date = new Date();
-            date = date.toUTCString();
-            document.cookie = `date=${date}`;
-            document.cookie = `guestcount=${n}`;
+            document.cookie = `guestcount=${n}; expires=${toTommorow}`;
             console.log(document.cookie);
         }
+
+
+       
     </script>
 </body>
 </html>
