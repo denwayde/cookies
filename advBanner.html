@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Hello this is my Site</h1>
+	<hr>
+	<div id="advBan">
+		<p>Hello this is Banner</p>
+		<br>
+		<input type="button" value="close" id="cls">
+	</div>
+	<script>
+		/*Пусть по заходу на страницу показывается определенный рекламный текст. Рядом с ним сделайте кнопку 'убрать', по нажатию на которую этот рекламный текст не показывается этому пользователю ровно один день.*/
+		let adv = document.querySelector('#advBan');
+		let cls = document.querySelector('#cls');
+		let closureDate = document.cookie.match(/closuredate=([a-zA-Z\:\d\,\s]+)(?:\;|$)/);
+
+		let tommorow = new Date();
+		tommorow.setDate(tommorow.getDate()+1);
+		tommorow = tommorow.toUTCString();	
+		console.log(tommorow);
+
+		let now = new Date()
+		//now.setDate(now.getDate()+1);
+		now = now.toUTCString();
+		console.log(now);
+
+		cls.addEventListener('click', function() {
+			
+			adv.style.display = 'none';
+			document.cookie = `closuredate=${now}; expires=${tommorow}`;
+			
+		});
+
+		
+		if (closureDate!== null) {
+			console.log(closureDate[1]);
+
+			let sD = new Date(closureDate[1]);
+			sD.setDate(sD.getDate()+1);
+			sD = sD.toUTCString();
+			console.log(new Date(sD));
+
+			if (new Date(now) > new Date(sD)) {
+				adv.style.display = 'block';
+			}
+			if (new Date(sD) >= new Date(now)) {
+				adv.style.display = 'none';
+			}
+		}
+	</script>
+</body>
+</html>
